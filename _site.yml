@@ -1,0 +1,7 @@
+name: "Yosik Norman"
+navbar:
+  title: "Himawari Satellite Monitoring"
+  left:
+    - text: "Home"
+      href: index.html
+

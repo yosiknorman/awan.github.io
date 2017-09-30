@@ -1,0 +1,39 @@
+---
+title: "Recent Convective Cloud"
+author: "Yosik Norman"
+date: "Geophysics Tutorial"
+output: html_document
+
+---
+  
+  
+  
+  
+```{r, echo = FALSE,message=F,warning=F,include = T}
+options(viewer = NULL)
+
+# data_leaf = list(ptx=c_x1[2:3],pty=c_y1[2:3],dr = dr,nama_data = data_nc,area  = rev(hasil$doc$doc_area)*2,
+#                  ecc = substr(rev(hasil$doc$m.eccentricity),1,6))
+load("data_leaf.rda")
+library(leaflet)
+library(raster)
+
+pal <- colorNumeric(c( "red","blue","purple","yellow", "grey"), values(data_leaf$dr),
+                    na.color = "transparent")
+
+co = leaflet() %>% addTiles() %>%
+  addRasterImage(data_leaf$dr, colors = pal, opacity = 0.7) %>%
+  addLegend(pal = pal, values = values(data_leaf$dr),
+            title = "Cloud Top Temp (K)") %>%
+  addMarkers( lng=data_leaf$ptx, lat=data_leaf$pty, popup=sprintf("Monitoring Kluster Awan Konvektif; data tanggal %s; jam %s UTC; pusat lokasi lon,lat : (%s,%s) ;
+                                                            Luasan : %s Km^2; Perimeter : %s",
+                                                            substr(data_leaf$nama_data,1,8),
+                                                            substr(data_leaf$nama_data,9,12),
+                                                            data_leaf$ptx,
+                                                            data_leaf$pty,
+                                                            data_leaf$area,
+                                                            data_leaf$ecc
+  )
+  )
+co
+```
